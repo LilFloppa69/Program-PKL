@@ -101,11 +101,17 @@ body {
 
 .sidebar-list-item {
   padding: 20px 20px 20px 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: all 0.3s ease-out;
 }
 
 .sidebar-list-item:hover {
   background-color: rgba(255, 255, 255, 0.2);
   cursor: pointer;
+  transform: translateY(-5px);
+  position: relative;
 }
 
 .sidebar-list-item > a {
@@ -135,11 +141,31 @@ body {
 
 .main-title {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
 }
 
-.main-title > p {
-  font-size: 20px;
+.main-title .Program {
+  border-bottom: 2px solid #ccc;
+  padding-bottom: 8px;
+  margin-top: 12px;
+  margin-bottom: 8px;
+}
+
+.main-title h1,
+.main-title h2 {
+  margin-bottom: 5px;
+}
+
+.main-title .activity {
+  margin-top: 12px;
+  display: flex;
+  width: 400px;
+  height: 60px;
+  padding: 10px;
+  border: 5px;
+  background-color: #f5d7d0;
+  color: rgb(112, 108, 108);
+  font-size: medium;
 }
 
 .main-cards {
@@ -221,6 +247,55 @@ body {
   font-weight: 600;
 }
 
+.custom-table {
+  margin-top: 3rem;
+  width: 100%;
+  border-collapse: collapse; /* gabungkan border */
+  font-family: Arial, sans-serif;
+}
+
+.custom-table th {
+  text-align: left;
+  font-weight: bold;
+  color: #666;
+  padding: 12px;
+}
+
+.custom-table td {
+  padding: 12px;
+  color: #444;
+}
+
+.custom-table tr:nth-child(even) {
+  background-color: #f9f9f9; /* baris genap ada background tipis */
+}
+
+.custom-table tr:nth-child(odd) {
+  background-color: #fff; /* baris ganjil putih */
+}
+
+.custom-table th,
+.custom-table td {
+  border: none; /* hilangkan garis */
+}
+
+.link-box {
+  display: inline-block;
+  padding: 8px 16px;
+  background-color: #77a13c;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  text-decoration: none;
+  color: #fff;
+  font-size: 14px;
+  transition: 0.3s ease;
+}
+
+.link-box:hover {
+  background-color: #348028;
+  color: rgb(182, 177, 177);
+}
+
 /* ---------- SCROLLBARS ---------- */
 
 ::-webkit-scrollbar {
@@ -286,4 +361,73 @@ body {
   .header-left {
     display: none;
   }
+}
+
+.table-container {
+  margin-top: 30px;
+}
+
+.table-card {
+  background-color: #ffffff;
+  margin-bottom: 20px;
+  padding: 25px;
+  box-sizing: border-box;
+  border: 1px solid #d2d2d3;
+  border-radius: 5px;
+  box-shadow: 0 6px 7px -4px rgba(0, 0, 0, 0.2);
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.data-table th,
+.data-table td {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 12px;
+  font-size: 14px;
+}
+
+.data-table thead th {
+  background-color: #f2f2f2;
+  font-weight: 600;
+}
+
+.data-table tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.data-table tbody tr:hover {
+  background-color: #f1f1f1;
+}
+
+.status-badge {
+  padding: 5px 10px;
+  border-radius: 15px;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.status-diterima {
+  background-color: #367952; /* Warna hijau dari CSS Anda */
+}
+
+.status-pending {
+  background-color: #f5b74f; /* Warna oranye dari CSS Anda */
+}
+
+.status-ditolak {
+  background-color: #cc3c43; /* Warna merah dari CSS Anda */
+}
+/* Tambahkan ini di akhir file style.css */
+.sidebar-brand-link {
+  text-decoration: none;
+  color: #9799ab; /* Warna teks asli di sidebar */
+}
+.sidebar-brand-link:hover {
+  color: #ffffff; /* Warna teks saat kursor di atasnya */
 }

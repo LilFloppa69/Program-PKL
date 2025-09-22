@@ -1,3 +1,28 @@
+<?php
+session_start();
+include("../koneksi.php"); // file koneksi yang tadi kamu buat
+
+// pastikan mahasiswa sudah login
+if (!isset($_SESSION['id_mahasiswa'])) {
+    header("Location: login_mahasiswa.php");
+    exit;
+}
+
+$id_mahasiswa = $_SESSION['id_mahasiswa'];
+
+// ambil data mahasiswa
+$query = "SELECT nama_mahasiswa FROM mahasiswa WHERE id_mahasiswa = '$id_mahasiswa'";
+$result = mysqli_query($koneksi, $query);
+
+if ($result && mysqli_num_rows($result) > 0) {
+    $row = mysqli_fetch_assoc($result);
+    $nama_mahasiswa = $row['nama_mahasiswa'];
+} else {
+    $nama_mahasiswa = "Mahasiswa";
+}
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -9,7 +34,7 @@
 
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet" />
 
-    <link rel="stylesheet" href="../Style/style.css" />
+    <link rel="stylesheet" href="../../Style/style.css" />
   </head>
   <body>
     <div class="grid-container">
@@ -29,7 +54,7 @@
 
       <aside id="sidebar">
         <div class="sidebar-title">
-          <div class="sidebar-brand"><span class="material-icons-outlined">inventory</span> Bob's Inventory</div>
+          <div class="sidebar-brand"><span class="material-icons-outlined">inventory</span> Magang Gak jadi</div>
           <span class="material-icons-outlined" onclick="closeSidebar()">close</span>
         </div>
 
@@ -38,13 +63,13 @@
             <a href="#" target="_blank"> <span class="material-icons-outlined">dashboard</span> Dashboard </a>
           </li>
           <li class="sidebar-list-item">
-            <a href="#" target="_blank"> <span class="material-icons-outlined">inventory_2</span> Products </a>
+            <a href="./mitra.php" target="_blank"> <span class="material-icons-outlined">filter_list</span> Daftar Mitra </a>
           </li>
           <li class="sidebar-list-item">
-            <a href="#" target="_blank"> <span class="material-icons-outlined">fact_check</span> Inventory </a>
+            <a href="./absensi.php" target="_blank"> <span class="material-icons-outlined">watch</span> Absensi Harian </a>
           </li>
           <li class="sidebar-list-item">
-            <a href="#" target="_blank"> <span class="material-icons-outlined">add_shopping_cart</span> Purchase Orders </a>
+            <a href="#" target="_blank"> <span class="material-icons-outlined">assignment</span> Logbook </a>
           </li>
           <li class="sidebar-list-item">
             <a href="#" target="_blank"> <span class="material-icons-outlined">shopping_cart</span> Sales Orders </a>
@@ -60,7 +85,9 @@
 
       <main class="main-container">
         <div class="main-title">
-          <p class="font-weight-bold">DASHBOARD</p>
+          <h1 class="font-weight-bold">Halo, <?php echo $nama_mahasiswa; ?></h1>
+          <h2 class="font-weight-bold">Dashboard Aktivitas Magang</h2>
+          <p class="activity font-weight-bold">Oops kamu belum mendaftar magang samsek</p>
         </div>
 
         <div class="main-cards">
