@@ -101,7 +101,7 @@ if ($result && mysqli_num_rows($result) > 0) {
 
           <div class="card">
             <div class="card-inner">
-              <p class="text-primary">PURCHASE ORDERS</p>
+              <p class="text-primary">Dosen Pembimbing</p>
               <span class="material-icons-outlined text-orange">add_shopping_cart</span>
             </div>
             <span class="text-primary font-weight-bold">83</span>
