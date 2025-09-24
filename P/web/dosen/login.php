@@ -91,23 +91,44 @@ button {
   color: red;
   font-size: 14px;
 }
+
+.register-link {
+  margin-top: 15px;
+  font-size: 14px;
+  color: #333;
+}
+
+.register-link a {
+  color: #4facfe;
+  text-decoration: none;
+}
+
+.register-link a:hover {
+  text-decoration: underline;
+}
+
     </style>
 </head>
 <body>
   <div class="login-container">
-    <h2>Login Dosen Pembimbing</h2>
-    <form method="POST">
-      <div class="form-group">
-        <label for="id_dosen">ID Dosen</label>
-        <input type="text" id="id_dosen" name="id_dosen" required>
+      <h2>Login Dosen Pembimbing</h2>
+      <form method="POST">
+        <div class="form-group">
+          <label for="id_dosen">ID Dosen</label>
+          <input type="text" id="id_dosen" name="id_dosen" required>
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" name="password" required>
+        </div>
+        <button class="login" type="submit">Login</button>
+      </form>
+      <?php if (isset($error)) { echo "<p class='error'>$error</p>"; } ?>
+
+      <!-- Tambahan link ke halaman register -->
+      <div class="register-link">
+          Belum punya akun? <a href="register.php">Daftar di sini</a>
       </div>
-      <div class="form-group">
-        <label for="password">Password</label>
-        <input type="password" id="password" name="password" required>
-      </div>
-      <button class="login" type="submit">Login</button>
-    </form>
-    <?php if (isset($error)) { echo "<p class='error'>$error</p>"; } ?>
   </div>
 </body>
 </html>
