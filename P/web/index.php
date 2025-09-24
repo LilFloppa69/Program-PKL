@@ -1,26 +1,4 @@
-<?php
-session_start();
-require '../koneksi.php';
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $id_mahasiswa = $_POST['id_mahasiswa'];
-    $password = $_POST['password'];
-
-    // cek mahasiswa
-    $query = "SELECT * FROM mahasiswa WHERE id_mahasiswa = '$id_mahasiswa' AND password_mahasiswa = PASSWORD('$password')";
-    $result = mysqli_query($koneksi, $query);
-
-    if (mysqli_num_rows($result) == 1) {
-        $mahasiswa = mysqli_fetch_assoc($result);
-        $_SESSION['id_mahasiswa'] = $mahasiswa['id_mahasiswa'];
-        $_SESSION['nama_mahasiswa'] = $mahasiswa['nama_mahasiswa'];
-        header('Location: mahasiswa.php');
-        exit;
-    } else {
-        $error = "ID atau password salah!";
-    }
-}
-?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -80,49 +58,26 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
           font-size: 16px;
           cursor: pointer;
           transition: background 0.3s;
+          margin: 15px 0 15px 0;
+          text-decoration: none;
         }
         button:hover {
           background: #00c6fb;
         }
-        .error {
-          margin-top: 15px;
-          color: red;
-          font-size: 14px;
-        }
-        .register-link {
-          margin-top: 15px;
-          font-size: 14px;
-          color: #333;
-        }
-
-        .register-link a {
-          color: #4facfe;
+        a {
+          color: white;
           text-decoration: none;
-        }
-
-        .register-link a:hover {
-          text-decoration: underline;
         }
     </style>
 </head>
 <body>
   <div class="login-container">
-    <h2>Login Mahasiswa</h2>
+    <h2>Masuk Sebagai:</h2>
     <form method="POST">
-      <div class="form-group">
-        <label for="id_mahasiswa">ID Mahasiswa</label>
-        <input type="text" id="id_mahasiswa" name="id_mahasiswa" required>
-      </div>
-      <div class="form-group">
-        <label for="password">Password</label>
-        <input type="password" id="password" name="password" required>
-      </div>
-      <button type="submit">Login</button>
+      <button type="submit"><a href="./dosen/login.php">Dosen</a></button>
+      <button type="submit"><a href="./mahasiswa//login.php">Mahasiswa</a></button>
+      <button type="submit"><a href="./mitra/login.php">Mitra</a></button>
     </form>
-    <?php if (isset($error)) { echo "<p class='error'>$error</p>"; } ?>
-    <div class="register-link">
-          Belum punya akun? <a href="register.php">Daftar di sini</a>
-    </div>
   </div>
 </body>
 </html>

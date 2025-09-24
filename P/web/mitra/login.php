@@ -91,6 +91,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             color: red;
             font-size: 14px;
         }
+        .register-link {
+          margin-top: 15px;
+          font-size: 14px;
+          color: #333;
+        }
+
+        .register-link a {
+          color: #4facfe;
+          text-decoration: none;
+        }
+
+        .register-link a:hover {
+          text-decoration: underline;
+        }
     </style>
 </head>
 <body>
@@ -108,6 +122,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       <button class="login" type="submit">Login</button>
     </form>
     <?php if (isset($error)) { echo "<p class='error'>$error</p>"; } ?>
+    <div class="register-link">
+          Belum punya akun? <a href="register.php">Daftar di sini</a>
+    </div>
   </div>
 </body>
 </html>
