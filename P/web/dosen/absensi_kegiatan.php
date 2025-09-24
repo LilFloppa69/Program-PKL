@@ -24,7 +24,7 @@ $result_kegiatan = mysqli_query($koneksi, $query_kegiatan);
 <div class="charts">
     <div class="charts-card">
         <p class="chart-title">Absensi Mahasiswa</p>
-        <table>
+        <table class="data-table">
             <thead>
                 <tr>
                     <th>Nama Mahasiswa</th>
@@ -45,7 +45,7 @@ $result_kegiatan = mysqli_query($koneksi, $query_kegiatan);
     </div>
     <div class="charts-card">
         <p class="chart-title">Kegiatan Mahasiswa</p>
-        <table>
+        <table class="data-table">
             <thead>
                 <tr>
                     <th>Nama Mahasiswa</th>
