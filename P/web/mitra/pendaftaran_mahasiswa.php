@@ -1,45 +1,70 @@
 <?php
-session_start();
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
 require '../koneksi.php';
 
-if (isset($_GET['id_lowongan']) && isset($_SESSION['id_mahasiswa'])) {
-    $id_lowongan = mysqli_real_escape_string($koneksi, $_GET['id_lowongan']);
-    $id_mahasiswa = mysqli_real_escape_string($koneksi, $_SESSION['id_mahasiswa']);
-
-    // Cek apakah sudah daftar sebelumnya
-    $cek = mysqli_query($koneksi, "
-        SELECT * FROM pendaftaran_pkl 
-        WHERE id_lowongan='$id_lowongan' 
-        AND id_mahasiswa='$id_mahasiswa'
-    ");
-
-    if (mysqli_num_rows($cek) > 0) {
-        $error = "Anda sudah mendaftar pada lowongan ini.";
-    } else {
-        $query = "
-            INSERT INTO pendaftaran_pkl (id_mahasiswa, id_lowongan, status, created_at) 
-            VALUES ('$id_mahasiswa', '$id_lowongan', 'Menunggu', NOW())
-        ";
-        if (mysqli_query($koneksi, $query)) {
-            $success = "Pendaftaran berhasil, menunggu persetujuan mitra.";
-        } else {
-            $error = "Gagal mendaftar: " . mysqli_error($koneksi);
-        }
-    }
-} else {
-    $error = "Akses tidak valid.";
+// Pastikan mitra sudah login
+if (!isset($_SESSION['id_mitra'])) {
+    header("Location: login.php");
+    exit;
 }
+
+$id_mitra = $_SESSION['id_mitra'];
+
+// Query untuk mengambil data pendaftaran berdasarkan mitra
+$query = "SELECT p.id_pendaftaran, m.nama_mahasiswa, lp.program, p.status, p.tanggal_daftar
+          FROM pendaftaran p
+          JOIN mahasiswa m ON p.id_mahasiswa = m.id_mahasiswa
+          JOIN lowongan_pkl lp ON p.id_lowongan = lp.id_lowongan
+          WHERE lp.id_mitra = '$id_mitra'
+          ORDER BY p.tanggal_daftar DESC";
+
+$result = mysqli_query($koneksi, $query);
 ?>
 
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Pendaftaran Mahasiswa</title>
-</head>
-<body>
-<h2>Pendaftaran Mahasiswa</h2>
-<?php if (isset($success)) echo "<p style='color:green'>$success</p>"; ?>
-<?php if (isset($error)) echo "<p style='color:red'>$error</p>"; ?>
-<a href="daftar_lowongan.php">Kembali ke daftar lowongan</a>
-</body>
-</html>
+<div class="table-container">
+    <div class="table-card">
+        <p class="chart-title">Daftar Pendaftar Mahasiswa</p>
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Nama Mahasiswa</th>
+                    <th>Program</th>
+                    <th>Tanggal Daftar</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php if ($result && mysqli_num_rows($result) > 0): ?>
+                    <?php while ($row = mysqli_fetch_assoc($result)): ?>
+                        <tr>
+                            <td><?= htmlspecialchars($row['nama_mahasiswa']); ?></td>
+                            <td><?= htmlspecialchars($row['program']); ?></td>
+                            <td><?= date('d M Y', strtotime($row['tanggal_daftar'])); ?></td>
+                            <td>
+                                    <?php
+                                    $status_class = '';
+                                    if ($row['status'] == 'disetujui') { // Ganti 'Diterima' menjadi 'disetujui'
+                                        $status_class = 'status-diterima';
+                                    } elseif ($row['status'] == 'ditolak') { // Ganti 'Ditolak' menjadi 'ditolak'
+                                        $status_class = 'status-ditolak';
+                                    } else {
+                                        $status_class = 'status-pending';
+                                    }
+                                    ?>
+                                <span class="status-badge <?= $status_class ?>">
+                                    <?= htmlspecialchars($row['status']); ?>
+                                </span>
+                            </td>
+                        </tr>
+                    <?php endwhile; ?>
+                <?php else: ?>
+                    <tr>
+                        <td colspan="4" style="text-align: center;">Belum ada mahasiswa yang mendaftar.</td>
+                    </tr>
+                <?php endif; ?>
+            </tbody>
+        </table>
+    </div>
+</div>

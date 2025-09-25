@@ -7,20 +7,11 @@ require '../koneksi.php';
 // Ambil ID mitra dari session (sesuaikan dengan sistem login Anda)
 $id_mitra = $_SESSION['id_mitra'];
 
-// Query untuk mengambil data pendaftaran berdasarkan mitra
-$query = "SELECT p.id_pendaftaran, p.id_mahasiswa, m.nama_mahasiswa, lp.program, p.status, p.tanggal_daftar
-          FROM pendaftaran p
-          JOIN mahasiswa m ON p.id_mahasiswa = m.id_mahasiswa
-          JOIN lowongan_pkl lp ON p.id_lowongan = lp.id_lowongan
-          WHERE lp.id_mitra = '$id_mitra'
-          ORDER BY p.tanggal_daftar DESC";
-
-$result = mysqli_query($koneksi, $query);
-
 // Handle approve/reject actions
 if (isset($_GET['approve'])) {
     $id_pendaftaran = intval($_GET['approve']); // amankan input
-    $update_query = "UPDATE pendaftaran SET status='Diterima' WHERE id_pendaftaran=$id_pendaftaran";
+    // Ganti 'Diterima' menjadi 'disetujui'
+    $update_query = "UPDATE pendaftaran SET status='Disetujui' WHERE id_pendaftaran=$id_pendaftaran";
     if (mysqli_query($koneksi, $update_query)) {
         header("Location: persetujuan.php");
         exit;
@@ -32,6 +23,7 @@ if (isset($_GET['approve'])) {
 
 if (isset($_GET['reject'])) {
     $id_pendaftaran = intval($_GET['reject']);
+     // Ganti 'Ditolak' menjadi 'ditolak'
     $update_query = "UPDATE pendaftaran SET status='Ditolak' WHERE id_pendaftaran=$id_pendaftaran";
     if (mysqli_query($koneksi, $update_query)) {
         header("Location: persetujuan.php");
@@ -40,6 +32,17 @@ if (isset($_GET['reject'])) {
         echo "Error update: " . mysqli_error($koneksi);
     }
 }
+
+// Query untuk mengambil data pendaftaran berdasarkan mitra
+$query = "SELECT p.id_pendaftaran, p.id_mahasiswa, m.nama_mahasiswa, lp.program, p.status, p.tanggal_daftar
+          FROM pendaftaran p
+          JOIN mahasiswa m ON p.id_mahasiswa = m.id_mahasiswa
+          JOIN lowongan_pkl lp ON p.id_lowongan = lp.id_lowongan
+          WHERE lp.id_mitra = '$id_mitra'
+          ORDER BY p.tanggal_daftar DESC";
+
+$result = mysqli_query($koneksi, $query);
+
 ?>
 
 <!DOCTYPE html>
@@ -242,19 +245,19 @@ if (isset($_GET['reject'])) {
 
         <div class="stats-cards">
             <div class="stat-card">
-                <div class="stat-number"><?= $stats['total'] ?></div>
+                <div class="stat-number"><?= $stats['total'] ?? 0 ?></div>
                 <div class="stat-label">Total Pendaftar</div>
             </div>
             <div class="stat-card">
-                <div class="stat-number"><?= $stats['pending'] ?></div>
+                <div class="stat-number"><?= $stats['pending'] ?? 0 ?></div>
                 <div class="stat-label">Menunggu</div>
             </div>
             <div class="stat-card">
-                <div class="stat-number"><?= $stats['diterima'] ?></div>
+                <div class="stat-number"><?= $stats['diterima'] ?? 0 ?></div>
                 <div class="stat-label">Diterima</div>
             </div>
             <div class="stat-card">
-                <div class="stat-number"><?= $stats['ditolak'] ?></div>
+                <div class="stat-number"><?= $stats['ditolak'] ?? 0 ?></div>
                 <div class="stat-label">Ditolak</div>
             </div>
         </div>
@@ -271,7 +274,7 @@ if (isset($_GET['reject'])) {
                 </tr>
             </thead>
             <tbody>
-                <?php if (mysqli_num_rows($result) > 0): ?>
+                <?php if ($result && mysqli_num_rows($result) > 0): ?>
                     <?php while ($row = mysqli_fetch_assoc($result)): ?>
                         <tr>
                             <td><?= htmlspecialchars($row['id_mahasiswa']); ?></td>
@@ -282,13 +285,13 @@ if (isset($_GET['reject'])) {
                                 <?php
                                 $status_class = '';
                                 switch($row['status']) {
-                                    case 'Pending':
+                                    case 'pending':
                                         $status_class = 'status-pending';
                                         break;
-                                    case 'Diterima':
+                                    case 'disetujui': // Ganti 'Diterima' menjadi 'disetujui'
                                         $status_class = 'status-diterima';
                                         break;
-                                    case 'Ditolak':
+                                    case 'ditolak': // Ganti 'Ditolak' menjadi 'ditolak'
                                         $status_class = 'status-ditolak';
                                         break;
                                 }
@@ -296,14 +299,13 @@ if (isset($_GET['reject'])) {
                                 <span class="status-badge <?= $status_class ?>"><?= htmlspecialchars($row['status']); ?></span>
                             </td>
                             <td>
-                                <?php if (strtolower($row['status']) == 'pending'):
- ?>
+                                <?php if (strtolower($row['status']) == 'pending'): ?>
                                     <div class="action-buttons">
                                         <a href="?approve=<?= $row['id_pendaftaran']; ?>" class="btn btn-approve" onclick="return confirm('Yakin ingin menyetujui pendaftaran ini?')">Terima</a>
                                         <a href="?reject=<?= $row['id_pendaftaran']; ?>" class="btn btn-reject" onclick="return confirm('Yakin ingin menolak pendaftaran ini?')">Tolak</a>
                                     </div>
                                 <?php else: ?>
-                                    <span class="status-badge <?= $status_class ?>"><?= htmlspecialchars($row['status']); ?></span>
+                                    <span>-</span>
                                 <?php endif; ?>
                             </td>
                         </tr>
