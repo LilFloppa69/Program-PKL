@@ -10,7 +10,8 @@ $id_mitra = $_SESSION['id_mitra'];
 // Handle approve/reject actions
 if (isset($_GET['approve'])) {
     $id_pendaftaran = intval($_GET['approve']); // amankan input
-    $update_query = "UPDATE pendaftaran SET status='Diterima' WHERE id_pendaftaran=$id_pendaftaran";
+    // Ganti 'Diterima' menjadi 'disetujui'
+    $update_query = "UPDATE pendaftaran SET status='Disetujui' WHERE id_pendaftaran=$id_pendaftaran";
     if (mysqli_query($koneksi, $update_query)) {
         header("Location: persetujuan.php");
         exit;
@@ -22,6 +23,7 @@ if (isset($_GET['approve'])) {
 
 if (isset($_GET['reject'])) {
     $id_pendaftaran = intval($_GET['reject']);
+     // Ganti 'Ditolak' menjadi 'ditolak'
     $update_query = "UPDATE pendaftaran SET status='Ditolak' WHERE id_pendaftaran=$id_pendaftaran";
     if (mysqli_query($koneksi, $update_query)) {
         header("Location: persetujuan.php");
@@ -283,13 +285,13 @@ $result = mysqli_query($koneksi, $query);
                                 <?php
                                 $status_class = '';
                                 switch($row['status']) {
-                                    case 'Pending':
+                                    case 'pending':
                                         $status_class = 'status-pending';
                                         break;
-                                    case 'Diterima':
+                                    case 'disetujui': // Ganti 'Diterima' menjadi 'disetujui'
                                         $status_class = 'status-diterima';
                                         break;
-                                    case 'Ditolak':
+                                    case 'ditolak': // Ganti 'Ditolak' menjadi 'ditolak'
                                         $status_class = 'status-ditolak';
                                         break;
                                 }

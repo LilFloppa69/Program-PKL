@@ -43,16 +43,16 @@ $result = mysqli_query($koneksi, $query);
                             <td><?= htmlspecialchars($row['program']); ?></td>
                             <td><?= date('d M Y', strtotime($row['tanggal_daftar'])); ?></td>
                             <td>
-                                <?php
-                                $status_class = '';
-                                if ($row['status'] == 'Diterima') {
-                                    $status_class = 'status-diterima';
-                                } elseif ($row['status'] == 'Ditolak') {
-                                    $status_class = 'status-ditolak';
-                                } else {
-                                    $status_class = 'status-pending';
-                                }
-                                ?>
+                                    <?php
+                                    $status_class = '';
+                                    if ($row['status'] == 'disetujui') { // Ganti 'Diterima' menjadi 'disetujui'
+                                        $status_class = 'status-diterima';
+                                    } elseif ($row['status'] == 'ditolak') { // Ganti 'Ditolak' menjadi 'ditolak'
+                                        $status_class = 'status-ditolak';
+                                    } else {
+                                        $status_class = 'status-pending';
+                                    }
+                                    ?>
                                 <span class="status-badge <?= $status_class ?>">
                                     <?= htmlspecialchars($row['status']); ?>
                                 </span>
