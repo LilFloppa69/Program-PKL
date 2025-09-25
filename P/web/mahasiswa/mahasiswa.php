@@ -20,6 +20,25 @@ if ($result && mysqli_num_rows($result) > 0) {
 } else {
     $nama_mahasiswa = "Mahasiswa";
 }
+
+// ambil data dosen utk ditampilkan ke cardnya ya kon
+
+$query = "
+    SELECT m.nama_mahasiswa, d.nama_dosen 
+    FROM mahasiswa m 
+    LEFT JOIN dosen d ON m.id_dosen_pembimbing = d.id_dosen 
+    WHERE m.id_mahasiswa = '$id_mahasiswa'
+";
+$result = mysqli_query($koneksi, $query);
+
+if ($result && mysqli_num_rows($result) > 0) {
+    $row = mysqli_fetch_assoc($result);
+    $nama_mahasiswa = $row['nama_mahasiswa'];
+    $nama_dosen = $row['nama_dosen'] ?? "Belum ada dosen pembimbing";
+} else {
+    $nama_mahasiswa = "Mahasiswa";
+    $nama_dosen = "Belum ada dosen pembimbing";
+}
 ?>
 
 
@@ -75,9 +94,11 @@ if ($result && mysqli_num_rows($result) > 0) {
           <div class="card">
             <div class="card-inner">
               <p class="text-primary">Dosen Pembimbing</p>
-              <span class="material-icons-outlined text-orange">add_shopping_cart</span>
+              <span class="material-icons-outlined text-orange">person</span>
             </div>
-            <span class="text-primary font-weight-bold">83</span>
+            <span class="text-primary font-weight-bold">
+              <?php echo htmlspecialchars($nama_dosen); ?> 
+            </span>
           </div>
 
           <div class="card">

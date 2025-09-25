@@ -1,3 +1,15 @@
+<?php
+session_start();
+require '../koneksi.php';
+
+// Query ambil semua lowongan dari mitra
+$query = "SELECT lp.id_lowongan, lp.program, lp.mitra, lp.periode, lp.tahun_ajaran, lp.kategori 
+          FROM lowongan_pkl lp
+          JOIN mitra m ON lp.id_mitra = m.id_mitra
+          ORDER BY lp.created_at DESC";
+$result = mysqli_query($koneksi, $query);
+?>
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -6,7 +18,6 @@
     <title>Admin Dashboard</title>
 
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
-
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet" />
 
     <link rel="stylesheet" href="../../Style/style.css" />
@@ -49,29 +60,28 @@
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>Program Program Plug and Play USU - Ganjil 2025/2026</td>
-              <td>Direktorat Pengembangan Pendidikan</td>
-              <td>2025-08-19 s/d 2026-01-07</td>
-              <td>Ganjil 2025/2026</td>
-              <td>Plug n Play</td>
-              <td><a href="#" class="link-box">Detail</a></td>
-            </tr>
-            <tr>
-              <td>KKN Tematik USU Ganjil 2025/2026</td>
-              <td>Direktorat Pengembangan Pendidikan</td>
-              <td>2025-08-19 s/d 2026-01-07</td>
-              <td>Ganjil 2025/2026</td>
-              <td>KKN Tematik USU</td>
-              <td><a href="#" class="link-box">Detail</a></td>
-            </tr>
+            <?php if (mysqli_num_rows($result) > 0): ?>
+              <?php while ($row = mysqli_fetch_assoc($result)): ?>
+                <tr>
+                  <td><?= htmlspecialchars($row['program']); ?></td>
+                  <td><?= htmlspecialchars($row['mitra']); ?></td>
+                  <td><?= htmlspecialchars($row['periode']); ?></td>
+                  <td><?= htmlspecialchars($row['tahun_ajaran']); ?></td>
+                  <td><?= htmlspecialchars($row['kategori']); ?></td>
+                  <td><a href="pendaftaran_pkl.php?id_lowongan=<?= $row['id_lowongan']; ?>" class="link-box">Daftar</a></td>
+                </tr>
+              <?php endwhile; ?>
+            <?php else: ?>
+              <tr>
+                <td colspan="6" style="text-align:center;">Belum ada program tersedia</td>
+              </tr>
+            <?php endif; ?>
           </tbody>
         </table>
       </main>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/apexcharts/3.35.3/apexcharts.min.js"></script>
-
     <script src="js/scripts.js"></script>
   </body>
 </html>
