@@ -431,3 +431,59 @@ body {
 .sidebar-brand-link:hover {
   color: #ffffff; /* Warna teks saat kursor di atasnya */
 }
+
+form {
+  max-width: 500px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+form label {
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 5px;
+  display: block;
+}
+
+form input[type="date"],
+form select,
+form textarea {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 14px;
+  font-family: "Montserrat", sans-serif;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+form input[type="date"]:focus,
+form select:focus,
+form textarea:focus {
+  border-color: #77a13c;
+  outline: none;
+  box-shadow: 0 0 5px rgba(119, 161, 60, 0.5);
+}
+
+form textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+form button {
+  background: #77a13c;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 16px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+form button:hover {
+  background: #5d812f;
+}

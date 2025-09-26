@@ -36,6 +36,63 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet" />
     <link rel="stylesheet" href="../../Style/style.css" />
+    <style>
+    form {
+        max-width: 500px;
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+    }
+
+    form label {
+        font-weight: 600;
+        color: #333;
+        margin-bottom: 5px;
+        display: block;
+    }
+
+    form input[type="date"],
+    form select,
+    form textarea {
+        width: 100%;
+        padding: 10px 12px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        font-size: 14px;
+        font-family: 'Montserrat', sans-serif;
+        transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    form input[type="date"]:focus,
+    form select:focus,
+    form textarea:focus {
+        border-color: #77a13c;
+        outline: none;
+        box-shadow: 0 0 5px rgba(119, 161, 60, 0.5);
+    }
+
+    form textarea {
+        min-height: 100px;
+        resize: vertical;
+    }
+
+    form button {
+        background: #77a13c;
+        color: #fff;
+        border: none;
+        border-radius: 8px;
+        padding: 10px 16px;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background 0.3s;
+    }
+
+    form button:hover {
+        background: #5d812f;
+    }
+</style>
+
 </head>
 <body>
     <div class="grid-container">
