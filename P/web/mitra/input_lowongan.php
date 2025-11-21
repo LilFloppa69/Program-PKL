@@ -38,13 +38,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <title>Input Lowongan</title>
     <link rel="stylesheet">
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: #f7f7f7;
-            margin: 0;
-            padding: 0;
-        }
-
         .container {
             width: 400px;
             margin: 50px auto;

@@ -13,11 +13,6 @@
           </a>
         </li>
         <li class="sidebar-list-item">
-          <a href="dashboard_mitra.php?page=pendaftaran">
-            <span class="material-icons-outlined">group</span> Pendaftaran Mahasiswa
-          </a>
-        </li>
-        <li class="sidebar-list-item">
           <a href="dashboard_mitra.php?page=persetujuan">
             <span class="material-icons-outlined">check_circle</span> Persetujuan Pendaftaran
           </a>
